@@ -243,10 +243,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         await _auth.createUserWithEmailAndPassword(email: email, password: password)
-            .then((value) => {postUserInfoToFirestore()})
+            .then((value) => {
+              Fluttertoast.showToast(msg: "Account created successdully :) "),
+              Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+                  (route) => false),
+            })
             .catchError((e) {
               Fluttertoast.showToast(msg: e!.message);
-        });
+              return e.message;
+            });
       } on FirebaseAuthException catch (error) {
         switch (error.code) {
           case "invalid-email":
@@ -275,27 +281,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       }
     }
   }
-  postUserInfoToFirestore() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-    
-    UserModel userModel = UserModel();
-    
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.firstName = firstNameController.text;
-    userModel.lastName = lastNameController.text;
-    
-    await firebaseFirestore
-        .collection("user")
-        .doc(user.uid)
-        .set(userModel.toMap());
-    
-    Fluttertoast.showToast(msg: "Account created successdully :) ");
-
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-        (route) => false);
-  }
+  // postUserInfoToFirestore() async {
+  //   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+  //   User? user = _auth.currentUser;
+  //
+  //   UserModel userModel = UserModel();
+  //
+  //   userModel.email = user!.email;
+  //   userModel.uid = user.uid;
+  //   userModel.firstName = firstNameController.text;
+  //   userModel.lastName = lastNameController.text;
+  //
+  //   await firebaseFirestore
+  //       .collection("user")
+  //       .doc(user.uid)
+  //       .set(userModel.toMap());
+  //
+  //   Fluttertoast.showToast(msg: "User info persisted to the DB");
+  // }
 }
