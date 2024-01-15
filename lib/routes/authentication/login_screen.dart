@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_myapp/routes/registration_screen.dart';
+import 'package:flutter_myapp/routes/authentication/registration_screen.dart';
+import 'package:flutter_myapp/routes/home_screen.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -59,7 +61,7 @@ class LoginScreenState extends State<LoginScreen> {
       controller: passwordController,
       obscureText: true,
       validator: (value) {
-        RegExp regex = new RegExp(r'^.{6,}$');
+        RegExp regex = RegExp(r'^.{6,}$');
         if (value!.isEmpty) {
           return ("Password is required for login");
         }
@@ -121,9 +123,9 @@ class LoginScreenState extends State<LoginScreen> {
                       )),
                     SizedBox(height: 45),
                     emailField,
-                    SizedBox(height: 45),
+                    SizedBox(height: 30),
                     passwordField,
-                    SizedBox(height: 45),
+                    SizedBox(height: 30),
                     loginButton,
                     SizedBox(height: 45),
                     Row(
@@ -157,7 +159,43 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void signIn(String email, String password) {
+  void signIn(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((uid) => {
+              Fluttertoast.showToast(msg: "Login Successful!"),
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => HomeScreen())),
+          });
+        } on FirebaseAuthException catch (error) {
+          switch (error.code) {
+            case "invalid-email":
+              errorMessage = "Invalid Email.";
+              break;
+            case "wrong-password":
+              errorMessage = "Wrong password.";
+              break;
+            case "user-not-found":
+              errorMessage = "User not found.";
+              break;
+            case "user-disabled":
+              errorMessage = "User was disabled";
+              break;
+            case "too-many-requests":
+              errorMessage  = "Too many requests";
+              break;
+            case "operation-not-allowed":
+              errorMessage = "Signing in with email and password is not enabled";
+              break;
+            default:
+              errorMessage = "Undefined error";
+          }
+          Fluttertoast.showToast(msg: errorMessage!);
+          print(error.code);
+      }
+    }
 
   }
 
