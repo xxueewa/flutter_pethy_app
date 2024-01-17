@@ -1,10 +1,8 @@
-# flutter_testapp
+# flutter_pethy_app
 
-A new Flutter project.
+A new Flutter project for pet profile and medical records management. Implemented User Authentication with Firebase and persisted data in Cloud Firestore NoSql database. 
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 
