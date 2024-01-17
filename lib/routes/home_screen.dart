@@ -15,13 +15,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState
     extends State<HomeScreen> {
-  int _selectedIndex = 2;
+  late int _selectedIndex;
   late PageController _pageController;
 
   @override
   void initState() {
+    _selectedIndex = 2;
+    _pageController = PageController(initialPage: 2);
     super.initState();
-    _pageController = PageController();
   }
 
   @override
