@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_myapp/routes/pages/medical_page.dart';
 import 'package:flutter_myapp/routes/pages/pets_page.dart';
@@ -17,6 +18,7 @@ class _HomeScreenState
     extends State<HomeScreen> {
   late int _selectedIndex;
   late PageController _pageController;
+  final _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -46,6 +48,7 @@ class _HomeScreenState
           leading: IconButton(
             icon: Icon(Icons.logout, color: Colors.black),
             onPressed: () {
+              _auth.signOut();
               Navigator.of(context)
                   .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
             },
