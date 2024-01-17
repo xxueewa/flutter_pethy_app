@@ -12,7 +12,7 @@ class PetModel {
   factory PetModel.fromMap(map) {
     return PetModel(
       petId: map['petId'],
-      userId: map['uid'],
+      userId: map['userId'],
       petName: map['petName'],
       birthDate: map['birthdate'],
       age: map['age'],
@@ -24,7 +24,7 @@ class PetModel {
   Map<String, dynamic> toMap() {
     return {
       'petId': petId,
-      'uid': userId,
+      'userId': userId,
       'petName': petName,
       'birthdate': birthDate,
       'age': age,
