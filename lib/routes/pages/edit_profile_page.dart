@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_myapp/routes/home_screen.dart';
+import 'package:flutter_myapp/routes/pages/pets_page.dart';
 
+import '../../db/db_helper.dart';
 import '../../model/PetModel.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -9,7 +13,7 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage>{
-
+  final _auth = FirebaseAuth.instance;
   final _db = FirebaseFirestore.instance;
 
   final TextEditingController petNameController = TextEditingController();
@@ -18,6 +22,8 @@ class _EditProfilePageState extends State<EditProfilePage>{
   final TextEditingController breedController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    DBHelper db = DBHelper();
+    final petModelRef = db.getPetRef("pets");
     final petNameField = TextFormField(
         autofocus: false,
         controller: petNameController,
@@ -121,6 +127,15 @@ class _EditProfilePageState extends State<EditProfilePage>{
     );
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.of(context)
+                .pushAndRemoveUntil(MaterialPageRoute(builder: (context) => HomeScreen()), (route) => false);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 32, bottom: 32),
@@ -154,6 +169,7 @@ class _EditProfilePageState extends State<EditProfilePage>{
 
   void saveEdit(String petName, String birthDate, String age, String breed) {
     final pet = PetModel();
+    pet.userId = _auth.currentUser!.uid;
     pet.petName=petName;
     pet.birthDate=birthDate;
     pet.age=age;
