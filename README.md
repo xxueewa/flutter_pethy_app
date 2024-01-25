@@ -2,7 +2,7 @@
 
 A new Flutter project for pet profile and medical records management. Implemented User Authentication with Firebase and persisted data in Cloud Firestore NoSql database. 
 
-<img src="https://firebasestorage.googleapis.com/v0/b/catlog-832e5.appspot.com/o/ui.png?alt=media&token=4cfbb466-0927-47d9-8f39-c403175104a0" width="200">
+[demo.webm](https://github.com/xxueewa/flutter_pethy_app/assets/97084796/af7da6d2-5b2f-4aa4-ac56-5b619e736643)
 
 ## Getting Started
 
