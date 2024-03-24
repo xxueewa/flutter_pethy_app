@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/PetModel.dart';
+import 'data/PetModel.dart';
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage>{
 
   final _db = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   final TextEditingController petNameController = TextEditingController();
   final TextEditingController birthDateController = TextEditingController();
@@ -121,6 +123,16 @@ class _EditProfilePageState extends State<EditProfilePage>{
     );
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.red),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 32, bottom: 32),
@@ -158,6 +170,7 @@ class _EditProfilePageState extends State<EditProfilePage>{
     pet.birthDate=birthDate;
     pet.age=age;
     pet.breed=breed;
+    pet.userId= _auth.currentUser!.uid;
     _db.collection("pets").add(pet.toMap()).then((DocumentReference doc) =>
     print('DocumentSnapshot added with ID: ${doc.id}'));
   }

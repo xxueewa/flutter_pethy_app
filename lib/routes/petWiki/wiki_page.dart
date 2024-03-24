@@ -1,7 +1,7 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_myapp/model/ChatMessageModel.dart';
+import 'package:flutter_myapp/routes/petWiki/data/ChatMessageModel.dart';
 import 'package:flutter_myapp/routes/home_screen.dart';
 import 'package:intl/intl.dart';
 

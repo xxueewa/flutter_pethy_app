@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_myapp/routes/pages/medical_page.dart';
-import 'package:flutter_myapp/routes/pages/pets_page.dart';
-import 'package:flutter_myapp/routes/pages/wiki_page.dart';
+import 'package:flutter_myapp/routes/medicalRecord/medical_page.dart';
+import 'package:flutter_myapp/routes/petProfile/pets_page.dart';
+import 'package:flutter_myapp/routes/petWiki/wiki_page.dart';
 
 import 'Authentication/login_screen.dart';
 
