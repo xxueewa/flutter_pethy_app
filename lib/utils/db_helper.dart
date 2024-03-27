@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_myapp/routes/medicalRecord/data/MedicalRecordModel.dart';
 import 'package:flutter_myapp/routes/petProfile/data/PetModel.dart';
 
 class DBHelper {
@@ -38,6 +39,15 @@ class DBHelper {
       toFirestore: (petModel, _) => petModel.toMap(),
     );
     return petModelRef;
+  }
+
+  CollectionReference getRecordRef(String collection) {
+    final recordModelRef = _db.collection(collection)
+        .withConverter<MedicalRecordModel>(
+      fromFirestore: (snapshots, _) => MedicalRecordModel.fromMap(snapshots.data()!),
+      toFirestore: (recordModelRef, _) => recordModelRef.toMap(),
+    );
+    return recordModelRef;
   }
 
 
