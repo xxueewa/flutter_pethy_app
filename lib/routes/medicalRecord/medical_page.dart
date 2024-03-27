@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_myapp/routes/medicalRecord/data/MedicalRecordModel.dart';
 import 'package:flutter_myapp/routes/medicalRecord/document_scan_page.dart';
-
 import '../../utils/db_helper.dart';
+import '../../utils/http_client.dart';
+import 'data/Album.dart';
 
 class MedicalPage extends StatefulWidget {
   const MedicalPage({super.key});
@@ -16,6 +17,7 @@ class MedicalPage extends StatefulWidget {
 
 class _MedicalPageState extends State<MedicalPage> {
   final _auth = FirebaseAuth.instance;
+  late Future<Album> futureAlbum;
 
   @override
   void initState() {
@@ -25,8 +27,9 @@ class _MedicalPageState extends State<MedicalPage> {
   @override
   Widget build(BuildContext context) {
     DBHelper db = DBHelper();
+    HttpClient client = HttpClient();
     final recordModelRef = db.getRecordRef("medicalRecords");
-
+    futureAlbum = client.testClient();
     final addButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -38,7 +41,7 @@ class _MedicalPageState extends State<MedicalPage> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => DocumentScanPage()));
           },
-          child: Text(
+          child: const Text(
             "Add",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -50,6 +53,16 @@ class _MedicalPageState extends State<MedicalPage> {
         padding: const EdgeInsets.all(36.0),
         child: Column(
           children: [
+            FutureBuilder<Album>(
+              future: futureAlbum,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data!.title);
+                } else {
+                  return Text('${snapshot.error}');
+                }
+              },
+            ),
             Expanded(
               child: SizedBox(
                 height: 200.0,

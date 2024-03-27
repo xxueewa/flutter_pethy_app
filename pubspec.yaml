@@ -45,6 +45,7 @@ dependencies:
   expandable: ^5.0.1
   flutter_document_scanner: ^1.1.0
   camera:
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
